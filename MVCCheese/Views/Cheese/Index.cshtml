@@ -1,6 +1,6 @@
 ﻿@{
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
 }
 
 <h1>My Cheese</h1>
@@ -14,5 +14,19 @@
     @foreach (string cheese in ViewBag.cheeses)
     {
         <li>@cheese</li>
+    }
+</ul>
+
+<ul>
+    @foreach (KeyValuePair<string,string> cheese in ViewBag.cheesesDictionary)
+    {
+        <li>Key:  @cheese.Key  Description:  @cheese.Value</li>
+    }
+</ul>
+
+<ul>
+    @foreach (var cheese in ViewBag.cheesesListOfCheese)
+    {
+        <li>@cheese.Name - @cheese.Description</li>
     }
 </ul>
