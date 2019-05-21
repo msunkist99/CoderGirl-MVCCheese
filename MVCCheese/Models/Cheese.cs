@@ -7,16 +7,15 @@ namespace MVCCheese.Models
 {
     public class Cheese
     {
-        string name;
-        string description;
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int CheeseId { get; set; }
+        private static int nextId = 1;
 
-        public string Name {
-            get { return name; }
-            set { name = value; }
+        public Cheese()
+        {
+            CheeseId = nextId;
+            nextId++;
         }
-
-        public string Description {
-            get { return description; }
-            set { description = value; } }
     }
 }

@@ -9,15 +9,10 @@ namespace MVCCheese.Controllers
 {
     public class CheeseController : Controller
     {
-        static private List<string> Cheeses = new List<string>();
-        static private Dictionary<string, string> CheesesDictionary = new Dictionary<string, string>();
-        static private List<Cheese> ListOfCheeseClasses = new List<Cheese>();
-
         public IActionResult Index()
         {
-            ViewBag.cheeses = Cheeses;
-            ViewBag.cheesesDictionary = CheesesDictionary;
-            ViewBag.cheesesListOfCheese = ListOfCheeseClasses;
+            ViewBag.cheeses = CheeseData.GetAll();
+
             return View();
         }
 
@@ -25,22 +20,52 @@ namespace MVCCheese.Controllers
         {
             return View();
         }
-        
 
         [HttpPost]
         [Route("/Cheese/Add")]
-        public IActionResult NewCheese(string name, string description)
+        public IActionResult NewCheese(Cheese newCheese)
         {
-            Cheeses.Add(name);
-            CheesesDictionary.Add(name, description);
-
-            Cheese cheese = new Cheese();
-            cheese.Name = name;
-
-            cheese.Description = description;
-            ListOfCheeseClasses.Add(cheese);
+            // Add the new cheese to my existing cheeses
+            CheeseData.Add(newCheese);
 
             return Redirect("/Cheese");
+        }
+
+        public IActionResult Remove()
+        {
+            ViewBag.title = "Remove Cheeses";
+            ViewBag.cheeses = CheeseData.GetAll();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Remove(int[] cheeseIds)
+        {
+            foreach (int cheeseId in cheeseIds)
+            {
+                CheeseData.Remove(cheeseId);
+            }
+
+            return Redirect("/");
+        }
+
+        public IActionResult Edit(int cheeseId)
+        {
+            ViewBag.cheese= CheeseData.GetById(cheeseId);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int cheeseId, string name, string description)
+        {
+            CheeseData.Remove(cheeseId);
+
+            Cheese newCheese = new Cheese();
+            newCheese.Name = name;
+            newCheese.Description = description;
+            CheeseData.Add(newCheese);
+
+            return Redirect("/");
         }
     }
 }

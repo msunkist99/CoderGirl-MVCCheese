@@ -1,32 +1,26 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    //Layout = null;
-}
-
-<h1>My Cheese</h1>
-<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
+﻿<h1>@ViewBag.Title</h1>
 
 @if (ViewBag.cheeses.Count == 0)
 {
-    <p>No cheeses yet</p>
+    <p>No cheeses yet!</p>
 }
-<ul>
-    @foreach (string cheese in ViewBag.cheeses)
-    {
-        <li>@cheese</li>
-    }
-</ul>
 
-<ul>
-    @foreach (KeyValuePair<string,string> cheese in ViewBag.cheesesDictionary)
-    {
-        <li>Key:  @cheese.Key  Description:  @cheese.Value</li>
-    }
-</ul>
+<table class="table">
 
-<ul>
-    @foreach (var cheese in ViewBag.cheesesListOfCheese)
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+
+    @foreach (var cheese in ViewBag.cheeses)
     {
-        <li>@cheese.Name - @cheese.Description</li>
+        <tr>
+            <td>@cheese.Name</td>
+            <td>@cheese.Description</td>
+            <td><a asp-controller="Cheese" asp-action="Edit" asp-route-cheeseId="@cheese.CheeseId">edit</a></td>
+        </tr>
     }
-</ul>
+</table>
+
+<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
+
